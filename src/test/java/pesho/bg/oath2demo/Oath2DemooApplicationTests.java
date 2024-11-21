@@ -1,4 +1,4 @@
-package pesho.bg.oath2demoo;
+package pesho.bg.oath2demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

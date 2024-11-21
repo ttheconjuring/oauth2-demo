@@ -1,4 +1,4 @@
-package pesho.bg.oath2demoo;
+package pesho.bg.oath2demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
