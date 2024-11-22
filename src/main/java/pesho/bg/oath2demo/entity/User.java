@@ -1,7 +1,6 @@
 package pesho.bg.oath2demo.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,14 +28,10 @@ public class User  {
     @Enumerated(EnumType.STRING)
     private AuthProvider authProvider;
 
-    @Column(unique = true, nullable = false, name = "provider_id")
-    private Integer providerId;
-
-    public User(String email, String name, AuthProvider authProvider, Integer providerId) {
+    public User(String email, String name, AuthProvider authProvider) {
         setEmail(email);
         setName(name);
         setAuthProvider(authProvider);
-        setProviderId(providerId);
     }
 
 }

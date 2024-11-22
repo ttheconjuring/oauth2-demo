@@ -1,4 +1,4 @@
-package pesho.bg.oath2demo;
+package pesho.bg.oath2demo.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import pesho.bg.oath2demo.service.CustomOAuth2UserService;
+import pesho.bg.oath2demo.service.CustomOidcUserService;
 
 @Configuration
 @EnableWebSecurity
@@ -15,6 +16,7 @@ import pesho.bg.oath2demo.service.CustomOAuth2UserService;
 public class SecurityConfiguration {
 
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOidcUserService customOidcUserService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -24,7 +26,8 @@ public class SecurityConfiguration {
                 .formLogin(Customizer.withDefaults())
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
-                                .userService(this.customOAuth2UserService)))
+                                .userService(this.customOAuth2UserService)
+                                .oidcUserService(this.customOidcUserService)))
                 .build();
     }
 

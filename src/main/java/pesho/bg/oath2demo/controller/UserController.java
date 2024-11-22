@@ -1,4 +1,4 @@
-package pesho.bg.oath2demo;
+package pesho.bg.oath2demo.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +10,8 @@ import java.security.Principal;
 public class UserController {
 
     @GetMapping("/")
-    public ResponseEntity<String> info(Principal principal) {
-        return ResponseEntity.ok(principal.getName());
+    public ResponseEntity<Principal> info(Principal principal) {
+        return ResponseEntity.ok(principal);
     }
 
 }
