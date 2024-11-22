@@ -15,8 +15,10 @@ import pesho.bg.oath2demo.service.CustomOidcUserService;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private final CustomOAuth2UserService customOAuth2UserService;
+    // When you configure Google as an OAuth2 provider in Spring Security, it defaults to OIDC (openid-connect).
     private final CustomOidcUserService customOidcUserService;
+    // GitHub does not support OIDC, so Spring Security uses DefaultOAuth2UserService for fetching user details.
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,8 +28,8 @@ public class SecurityConfiguration {
                 .formLogin(Customizer.withDefaults())
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
-                                .userService(this.customOAuth2UserService)
-                                .oidcUserService(this.customOidcUserService)))
+                                .oidcUserService(this.customOidcUserService)
+                                .userService(this.customOAuth2UserService)))
                 .build();
     }
 
