@@ -6,7 +6,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import pesho.bg.oath2demo.repository.UserRepository;
 import pesho.bg.oath2demo.service.CustomOAuth2UserService;
 import pesho.bg.oath2demo.service.CustomOidcUserService;
 
@@ -15,6 +21,7 @@ import pesho.bg.oath2demo.service.CustomOidcUserService;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+    private final UserRepository userRepository;
     // When you configure Google as an OAuth2 provider in Spring Security, it defaults to OIDC (openid-connect).
     private final CustomOidcUserService customOidcUserService;
     // GitHub does not support OIDC, so Spring Security uses DefaultOAuth2UserService for fetching user details.
@@ -23,15 +30,11 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/", "/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .loginPage("/api/v1/auth/login")
-                        .usernameParameter("email")
-                        .passwordParameter("password")
-                        .defaultSuccessUrl("/api/v1/user/profile"))
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/api/v1/auth/login")
                         .defaultSuccessUrl("/api/v1/user/profile")
@@ -39,6 +42,17 @@ public class SecurityConfiguration {
                                 .oidcUserService(this.customOidcUserService)
                                 .userService(this.customOAuth2UserService)))
                 .build();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return username -> this.userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }

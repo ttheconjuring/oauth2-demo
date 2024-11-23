@@ -30,4 +30,5 @@ public class CustomOidcUserService extends OidcUserService {
         this.userRepository.saveAndFlush(new User(email, name, authProvider));
         return oidcUser;
     }
+
 }
