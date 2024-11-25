@@ -23,17 +23,4 @@ public class UserService {
         return "redirect:/api/v1/auth/login";
     }
 
-    public String login(String username, String password) {
-        User user = this.userRepository.findByEmail(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        if (user.getAuthProvider() != null) {
-            return "Invalid credentials!";
-        }
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            return "Invalid credentials!";
-        }
-        // TODO: authenticate
-        return "redirect:/api/v1/auth/user/profile";
-    }
-
 }

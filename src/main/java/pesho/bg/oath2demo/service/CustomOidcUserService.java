@@ -24,10 +24,7 @@ public class CustomOidcUserService extends OidcUserService {
             return oidcUser;
         }
         String name = oidcUser.getAttribute("name");
-        AuthProvider authProvider =
-                userRequest.getClientRegistration().getRegistrationId().equals("google") ?
-                AuthProvider.GOOGLE : AuthProvider.FACEBOOK;
-        this.userRepository.saveAndFlush(new User(email, name, authProvider));
+        this.userRepository.saveAndFlush(new User(email, name, AuthProvider.GOOGLE));
         return oidcUser;
     }
 

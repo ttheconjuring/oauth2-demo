@@ -24,10 +24,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             return oAuth2User;
         }
         String name = oAuth2User.getAttribute("name");
-        AuthProvider authProvider =
-                userRequest.getClientRegistration().getRegistrationId().equals("google") ?
-                        AuthProvider.GOOGLE : AuthProvider.FACEBOOK;
-        this.userRepository.saveAndFlush(new User(email, name, authProvider));
+        this.userRepository.saveAndFlush(new User(email, name, AuthProvider.GITHUB));
         return oAuth2User;
     }
 

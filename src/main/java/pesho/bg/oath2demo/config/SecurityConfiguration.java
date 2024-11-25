@@ -35,6 +35,11 @@ public class SecurityConfiguration {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/", "/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated())
+                .formLogin(form -> form
+                        .loginPage("/api/v1/auth/login")
+                        .loginProcessingUrl("/api/v1/auth/login")
+                        .defaultSuccessUrl("/api/v1/user/profile")
+                        .failureUrl("/api/v1/auth/login?error=true"))
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/api/v1/auth/login")
                         .defaultSuccessUrl("/api/v1/user/profile")

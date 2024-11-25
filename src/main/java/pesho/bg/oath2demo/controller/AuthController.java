@@ -20,11 +20,6 @@ public class AuthController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        return this.userService.login(username, password);
-    }
-
     @PostMapping("/register")
     public String register(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
         return this.userService.register(name, email, password);
