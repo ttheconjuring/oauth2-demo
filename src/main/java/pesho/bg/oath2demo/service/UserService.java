@@ -19,8 +19,12 @@ public class UserService {
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         user.setAuthProvider(null);
-        this.userRepository.saveAndFlush(user);
-        return "redirect:/api/v1/auth/login";
+        User saved = this.userRepository.saveAndFlush(user);
+        return String.format("redirect:/api/v1/auth/login/%d", saved.getId());
     }
 
+    public User getProfileData(Long id) {
+        return this.userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }
