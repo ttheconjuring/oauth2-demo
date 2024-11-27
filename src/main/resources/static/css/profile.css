@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 body {
     background: #FF416C;
     background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
@@ -5,7 +6,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 96vh;
+    height: 95vh;
+    font-family: 'Montserrat', sans-serif;
 }
 
 span, a {
