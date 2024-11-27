@@ -1,7 +1,10 @@
 package pesho.bg.oath2demo.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import pesho.bg.oath2demo.entity.User;
 import pesho.bg.oath2demo.repository.UserRepository;
@@ -23,8 +26,16 @@ public class UserService {
         return String.format("redirect:/api/v1/auth/login/%d", saved.getId());
     }
 
-    public User getProfileData(Long id) {
-        return this.userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public User getProfileData(Object object) {
+        String email;
+        if (object instanceof OAuth2User) {
+            email = ((OAuth2User) object).getAttribute("email");
+        } else if (object instanceof OidcUser) {
+            email = ((OidcUser) object).getAttribute("email");
+        } else {
+            email = ((UserDetails) object).getUsername();
+        }
+        return this.userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException(String.format("User not found: %s", email)));
     }
 }

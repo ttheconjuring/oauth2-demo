@@ -4,70 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <!--    <link rel="stylesheet" href="/css/profile.css">-->
-    <style>
-        body {
-            background: #FF416C;
-            background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-            background: linear-gradient(to right, #FF4B2B, #FF416C);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 96vh;
-        }
-
-        span, a {
-            font-size: x-large;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 2em;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            padding: 3em;
-            background-color: white;
-            border-radius: 5px;
-        }
-
-        #title {
-            font-size: xx-large;
-            text-align: center;
-            padding-bottom: 10px;
-            border-bottom: 1px solid black;
-        }
-
-        #forgot {
-            text-decoration: none;
-            color: green;
-        }
-        
-        #logout {
-            border: 2px solid black;
-            text-align: center;
-            text-decoration: none;
-            padding: 5px 20px 5px 20px;
-            background-color: black;
-            color: white;
-            border-radius: 10px;
-        }
-
-        #logout:hover {
-            border: 2px solid black;
-            background: #FF416C;
-            background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-            background: linear-gradient(to right, #FF4B2B, #FF416C);
-        }
-
-    </style>
+    <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
 <div class="container">
     <span id="title">My profile</span>
     <div>
-        <span><strong>Name:</strong> Petar Mitov</span>
+        <span><strong>Name:</strong> <span th:text="${user.name}"/></span>
         <br>
-        <span><strong>Email:</strong> ttheconjuring@gmail.com</span>
+        <span><strong>Email:</strong> <span th:text="${user.email}"/></span>
     </div>
     <div>
         <a href="#" id="forgot">Forgot your password?</a>
